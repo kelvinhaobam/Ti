@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kelvin's Tic Tac Toe</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            border: 1px solid;
+            display: inline-block;
+            font-size: 40px;
+            text-align: center;
+            line-height: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Kelvin's Tic Tac Toe</h2>
+    <div id="board">
+        <div class="box" onclick="place(0)" id="b0"></div>
+        <div class="box" onclick="place(1)" id="b1"></div>
+        <div class="box" onclick="place(2)" id="b2"></div><br>
+        <div class="box" onclick="place(3)" id="b3"></div>
+        <div class="box" onclick="place(4)" id="b4"></div>
+        <div class="box" onclick="place(5)" id="b5"></div><br>
+        <div class="box" onclick="place(6)" id="b6"></div>
+        <div class="box" onclick="place(7)" id="b7"></div>
+        <div class="box" onclick="place(8)" id="b8"></div>
+    </div>
+
+<script>
+function place(val){
+    fetch("/move", {
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: "value=" + val
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("b"+val).innerHTML = data.turn==1 ? "O" : "X";
+        if(data.winner){
+            alert(data.winner + " wins!");
+        }
+    });
+}
+</script>
+</body>
+</html>
